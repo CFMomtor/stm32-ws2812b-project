@@ -17,12 +17,28 @@ const RGB_Color_TypeDef WHITE   = {255, 255, 255};   // 白色
 const RGB_Color_TypeDef MAGENTA = {255, 0, 220};     // 品红/洋红色
 
 
+const RGB_Color_TypeDef breathe_color[] = {
+    {255 , 0, 0},
+    {127, 106, 0},
+    {127, 216, 0},
+    {0, 255, 0},
+    {0, 255, 255},
+    {0, 0, 255},
+    {238, 130, 238}
+};
+
+
+uint8_t breathe_color_num = 0;  //呼吸灯颜色索引变量
+uint8_t breathe_color_falg = 0; //呼吸灯变颜色标志位，为1时改变颜色
+
+
 volatile WS2812B_BASIC_MODETypedef ws2812b_basic_mode = WS2812_MODE_OFF;
 WS2812B_BASIC_MODETypedef ws2812b_new_mode = WS2812_BASIC_MODE_ON;
 
 
 void show_2812B_linght(WS2812B_BASIC_MODETypedef mode)
 {
+    
     switch (mode)
     {
         case WS2812_MODE_OFF :
@@ -50,6 +66,7 @@ void show_2812B_linght(WS2812B_BASIC_MODETypedef mode)
 
 void WS2812B_Basic_Mode(void)
 {
+    const  RGB_Color_TypeDef breathe_color[7] ={RED,ORANGE,YELLOW,GREEN,CYAN,BLUE,PURPLE};
     switch (ws2812b_basic_mode)
     {
         case WS2812_MODE_OFF :
@@ -70,10 +87,8 @@ void WS2812B_Basic_Mode(void)
             break;
         
         case WS2812_Breathe_MODE :
-        {
-            WS2812B_Breathe(32,PURPLE,20);
+            WS2812B_Breathe(64,breathe_color[breathe_color_num]);
             break;
-        }
         
         case WS2812_MODE_L :
             Brightness_Set(20);
@@ -88,6 +103,10 @@ void WS2812B_Basic_Mode(void)
             break;
         default :
                 break ;
+            
+       
+        
+        
             
      }
             

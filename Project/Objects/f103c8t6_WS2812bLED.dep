@@ -763,9 +763,9 @@ I (..\User\adc/bsp_adc.h)(0x69E2686C)
 I (..\User\dma/bsp_dma.h)(0x69E267BC)
 I (..\User\key/bsp_key.h)(0x69EC7220)
 I (..\User\tim_pwm/bsp_tim.h)(0x69E43B98)
-I (..\User\ws2812b/bsp_ws2812b.h)(0x69ECC81E)
+I (..\User\ws2812b/bsp_ws2812b.h)(0x69EE028F)
 I (..\User\dwt/bsp_dwt.h)(0x69DBAE1D)
-I (..\APP\ws2812b/app_ws2812b.h)(0x69ECC81E)
+I (..\APP\ws2812b/app_ws2812b.h)(0x69EE1049)
 I (..\APP\key/app_key.h)(0x69EC8567)
 F (..\User\stm32f1xx_it.c)(0x69E6111D)(--c99 --gnu -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Libraries\CMSIS\Device\ST\STM32F1xx\Include -I ..\Libraries\CMSIS\Include -I ..\Libraries\STM32F1xx_HAL_Driver\Inc -I ..\User -I ..\APP-IC:\Users\16103\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="537" -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o .\objects\stm32f1xx_it.o --omf_browse .\objects\stm32f1xx_it.crf --depend .\objects\stm32f1xx_it.d)
 I (..\User\main.h)(0x69E20775)
@@ -939,7 +939,7 @@ I (..\Libraries\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_pcd_ex.h)(0x5D103E16)
 I (..\Libraries\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_hcd.h)(0x5D103E16)
 I (..\Libraries\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_mmc.h)(0x5D103E08)
 I (C:\Keil_v5\ARM\ARM_Compiler_5.06u7\include\stdio.h)(0x5E8E3CC2)
-F (..\User\key\bsp_key.c)(0x69EC7220)(--c99 --gnu -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Libraries\CMSIS\Device\ST\STM32F1xx\Include -I ..\Libraries\CMSIS\Include -I ..\Libraries\STM32F1xx_HAL_Driver\Inc -I ..\User -I ..\APP-IC:\Users\16103\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="537" -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o .\objects\bsp_key.o --omf_browse .\objects\bsp_key.crf --depend .\objects\bsp_key.d)
+F (..\User\key\bsp_key.c)(0x69EDDAC4)(--c99 --gnu -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Libraries\CMSIS\Device\ST\STM32F1xx\Include -I ..\Libraries\CMSIS\Include -I ..\Libraries\STM32F1xx_HAL_Driver\Inc -I ..\User -I ..\APP-IC:\Users\16103\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="537" -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o .\objects\bsp_key.o --omf_browse .\objects\bsp_key.crf --depend .\objects\bsp_key.d)
 I (..\User\key/bsp_key.h)(0x69EC7220)
 I (..\User\main.h)(0x69E20775)
 I (..\Libraries\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal.h)(0x5D103DFA)
@@ -997,8 +997,8 @@ I (..\Libraries\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_hcd.h)(0x5D103E16)
 I (..\Libraries\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_mmc.h)(0x5D103E08)
 I (C:\Keil_v5\ARM\ARM_Compiler_5.06u7\include\stdio.h)(0x5E8E3CC2)
 I (..\User\tim_pwm/bsp_tim.h)(0x69E43B98)
-I (..\APP\ws2812b/app_ws2812b.h)(0x69ECC81E)
-I (..\User\ws2812b/bsp_ws2812b.h)(0x69ECC81E)
+I (..\User\ws2812b/bsp_ws2812b.h)(0x69EE028F)
+I (..\APP\ws2812b/app_ws2812b.h)(0x69EE1049)
 F (..\User\tim_pwm\bsp_tim.c)(0x69E6078A)(--c99 --gnu -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Libraries\CMSIS\Device\ST\STM32F1xx\Include -I ..\Libraries\CMSIS\Include -I ..\Libraries\STM32F1xx_HAL_Driver\Inc -I ..\User -I ..\APP-IC:\Users\16103\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="537" -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o .\objects\bsp_tim.o --omf_browse .\objects\bsp_tim.crf --depend .\objects\bsp_tim.d)
 I (..\User\tim_pwm/bsp_tim.h)(0x69E43B98)
 I (..\User\main.h)(0x69E20775)
@@ -1113,8 +1113,8 @@ I (..\Libraries\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_pcd_ex.h)(0x5D103E16)
 I (..\Libraries\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_hcd.h)(0x5D103E16)
 I (..\Libraries\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_mmc.h)(0x5D103E08)
 I (C:\Keil_v5\ARM\ARM_Compiler_5.06u7\include\stdio.h)(0x5E8E3CC2)
-F (..\User\ws2812b\bsp_ws2812b.c)(0x69ED7D64)(--c99 --gnu -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Libraries\CMSIS\Device\ST\STM32F1xx\Include -I ..\Libraries\CMSIS\Include -I ..\Libraries\STM32F1xx_HAL_Driver\Inc -I ..\User -I ..\APP-IC:\Users\16103\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="537" -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o .\objects\bsp_ws2812b.o --omf_browse .\objects\bsp_ws2812b.crf --depend .\objects\bsp_ws2812b.d)
-I (..\User\ws2812b/bsp_ws2812b.h)(0x69ECC81E)
+F (..\User\ws2812b\bsp_ws2812b.c)(0x69EE1049)(--c99 --gnu -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Libraries\CMSIS\Device\ST\STM32F1xx\Include -I ..\Libraries\CMSIS\Include -I ..\Libraries\STM32F1xx_HAL_Driver\Inc -I ..\User -I ..\APP-IC:\Users\16103\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="537" -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o .\objects\bsp_ws2812b.o --omf_browse .\objects\bsp_ws2812b.crf --depend .\objects\bsp_ws2812b.d)
+I (..\User\ws2812b/bsp_ws2812b.h)(0x69EE028F)
 I (..\User\main.h)(0x69E20775)
 I (..\Libraries\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal.h)(0x5D103DFA)
 I (..\User\stm32f1xx_hal_conf.h)(0x5CFDFFF0)
@@ -1170,7 +1170,7 @@ I (..\Libraries\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_pcd_ex.h)(0x5D103E16)
 I (..\Libraries\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_hcd.h)(0x5D103E16)
 I (..\Libraries\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_mmc.h)(0x5D103E08)
 I (C:\Keil_v5\ARM\ARM_Compiler_5.06u7\include\stdio.h)(0x5E8E3CC2)
-I (..\APP\ws2812b/app_ws2812b.h)(0x69ECC81E)
+I (..\APP\ws2812b/app_ws2812b.h)(0x69EE1049)
 I (..\User\tim_pwm/bsp_tim.h)(0x69E43B98)
 I (..\User\dma/bsp_dma.h)(0x69E267BC)
 I (..\User\usart/bsp_usart.h)(0x69DCDCF7)
@@ -1231,8 +1231,8 @@ I (..\Libraries\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_pcd_ex.h)(0x5D103E16)
 I (..\Libraries\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_hcd.h)(0x5D103E16)
 I (..\Libraries\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_mmc.h)(0x5D103E08)
 I (C:\Keil_v5\ARM\ARM_Compiler_5.06u7\include\stdio.h)(0x5E8E3CC2)
-F (..\APP\ws2812b\app_ws2812b.c)(0x69ED7E9C)(--c99 --gnu -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Libraries\CMSIS\Device\ST\STM32F1xx\Include -I ..\Libraries\CMSIS\Include -I ..\Libraries\STM32F1xx_HAL_Driver\Inc -I ..\User -I ..\APP-IC:\Users\16103\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="537" -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o .\objects\app_ws2812b.o --omf_browse .\objects\app_ws2812b.crf --depend .\objects\app_ws2812b.d)
-I (..\APP\ws2812b/app_ws2812b.h)(0x69ECC81E)
+F (..\APP\ws2812b\app_ws2812b.c)(0x69EE1BDE)(--c99 --gnu -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Libraries\CMSIS\Device\ST\STM32F1xx\Include -I ..\Libraries\CMSIS\Include -I ..\Libraries\STM32F1xx_HAL_Driver\Inc -I ..\User -I ..\APP-IC:\Users\16103\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="537" -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o .\objects\app_ws2812b.o --omf_browse .\objects\app_ws2812b.crf --depend .\objects\app_ws2812b.d)
+I (..\APP\ws2812b/app_ws2812b.h)(0x69EE1049)
 I (..\User\main.h)(0x69E20775)
 I (..\Libraries\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal.h)(0x5D103DFA)
 I (..\User\stm32f1xx_hal_conf.h)(0x5CFDFFF0)
@@ -1288,10 +1288,10 @@ I (..\Libraries\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_pcd_ex.h)(0x5D103E16)
 I (..\Libraries\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_hcd.h)(0x5D103E16)
 I (..\Libraries\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_mmc.h)(0x5D103E08)
 I (C:\Keil_v5\ARM\ARM_Compiler_5.06u7\include\stdio.h)(0x5E8E3CC2)
-I (..\User\ws2812b/bsp_ws2812b.h)(0x69ECC81E)
+I (..\User\ws2812b/bsp_ws2812b.h)(0x69EE028F)
 I (..\User\dwt/bsp_dwt.h)(0x69DBAE1D)
 I (..\User\key/bsp_key.h)(0x69EC7220)
-F (..\APP\KEY\app_key.c)(0x69ECC81E)(--c99 --gnu -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Libraries\CMSIS\Device\ST\STM32F1xx\Include -I ..\Libraries\CMSIS\Include -I ..\Libraries\STM32F1xx_HAL_Driver\Inc -I ..\User -I ..\APP-IC:\Users\16103\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="537" -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o .\objects\app_key.o --omf_browse .\objects\app_key.crf --depend .\objects\app_key.d)
+F (..\APP\KEY\app_key.c)(0x69EE1BDE)(--c99 --gnu -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Libraries\CMSIS\Device\ST\STM32F1xx\Include -I ..\Libraries\CMSIS\Include -I ..\Libraries\STM32F1xx_HAL_Driver\Inc -I ..\User -I ..\APP-IC:\Users\16103\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="537" -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o .\objects\app_key.o --omf_browse .\objects\app_key.crf --depend .\objects\app_key.d)
 I (..\APP\key/app_key.h)(0x69EC8567)
 I (..\User\main.h)(0x69E20775)
 I (..\Libraries\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal.h)(0x5D103DFA)
@@ -1349,6 +1349,6 @@ I (..\Libraries\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_hcd.h)(0x5D103E16)
 I (..\Libraries\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_mmc.h)(0x5D103E08)
 I (C:\Keil_v5\ARM\ARM_Compiler_5.06u7\include\stdio.h)(0x5E8E3CC2)
 I (..\User\key/bsp_key.h)(0x69EC7220)
-I (..\APP\ws2812b/app_ws2812b.h)(0x69ECC81E)
-I (..\User\ws2812b/bsp_ws2812b.h)(0x69ECC81E)
+I (..\APP\ws2812b/app_ws2812b.h)(0x69EE1049)
+I (..\User\ws2812b/bsp_ws2812b.h)(0x69EE028F)
 F (..\Doc\readme.txt)(0x69DB4EEB)()

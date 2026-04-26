@@ -1,5 +1,6 @@
 #include "key/bsp_key.h"
 #include "tim_pwm/bsp_tim.h"
+#include "ws2812b/bsp_ws2812b.h"
 #include "ws2812b/app_ws2812b.h"
 
 
@@ -332,5 +333,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     {
         //10ms到，调用按键扫描函数
         key_Scan_10ms();
+        ws2812_dir_step();
     }
 }

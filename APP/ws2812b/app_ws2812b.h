@@ -42,6 +42,10 @@ typedef enum
 
 extern volatile WS2812B_BASIC_MODETypedef ws2812b_basic_mode;
 extern WS2812B_BASIC_MODETypedef ws2812b_new_mode;
+extern uint8_t breathe_color_num;
+extern uint8_t breathe_color_falg ;
+
+
 
 void WS2812B_Task(void);
 void WS2812B_Basic_Mode(void);

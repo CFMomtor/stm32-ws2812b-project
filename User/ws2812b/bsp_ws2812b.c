@@ -5,7 +5,21 @@
 #include "usart/bsp_usart.h"
 
 
-
+//伽马校正表(0～180)
+const uint8_t gamma_table_180 [181] = {
+    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,
+    1,  1,  1,  1,  1,  1,  2,  2,  2,  2,  2,  3,  3,  3,  4,  4,
+    4,  5,  5,  5,  6,  6,  7,  7,  8,  8,  9,  9, 10, 10, 11, 12,
+   12, 13, 13, 14, 15, 15, 16, 17, 18, 18, 19, 20, 21, 22, 23, 24,
+   24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 35, 36, 37, 38, 39, 41,
+   42, 43, 44, 46, 47, 48, 50, 51, 53, 54, 56, 57, 59, 60, 62, 64,
+   65, 67, 69, 70, 72, 74, 76, 78, 79, 81, 83, 85, 87, 89, 91, 93,
+   95, 97, 100,102,104,106,109,111,113,116,118,120,123,125,128,130,
+   133,135,138,141,143,146,149,151,154,157,160,163,165,168,171,174,
+   177,180,183,186,189,192,195,198,201,204,207,210,213,216,219,222,
+   225,228,231,235,238,241,244,248,251,254,255,255,255,255,255,255,
+   255,255,255,255
+};
 
 
 
@@ -20,7 +34,11 @@ static  uint8_t linght_num = 47;
 uint16_t ws2812b_buf[WS2812B_BUF_LEN];  // 发送的数据缓冲区
 
 
-uint8_t ws_tx_busy = 0;
+//uint8_t ws_tx_busy = 0;
+uint8_t i = 0;             //呼吸灯的亮度值0 ～ 180
+int8_t ws2812_dir = 1;     //呼吸灯方向 1自加 -1 自减
+
+
 
 
 //LED颜色值数组
@@ -57,6 +75,17 @@ void WS2812B_Init(void)
 //   2   1111 1111  1111 1111 0000 0000
 //
 //0000000001
+
+
+//伽马公式,优化呼吸灯效果 Lout = Lin的2.2次方/255的2.2次方 * 255
+uint8_t Gamma_Int(uint8_t in)
+{
+   if(in > 180) in = 180;
+    return gamma_table_180[in] ;
+}
+
+
+
 
 //设置百分比
 void Brightness_Set(uint8_t percent)
@@ -264,19 +293,51 @@ void WS2812B_SetLEDColor (uint16_t index,const RGB_Color_TypeDef color)
 }
 
 
+//呼吸灯方向改变函数，在TIM4中断回调函数中调用
+void ws2812_dir_step(void )
+{
+    i += ws2812_dir ;
+    if(i >= MAX_BRIGHT)
+    {
+        i = MAX_BRIGHT;
+        ws2812_dir = -1;
+        breathe_color_falg = 1;
+    }
+    else if(i <= 0)
+    {
+        i = 0;
+        ws2812_dir = 1;
+        if(breathe_color_falg)
+        {
+            breathe_color_num = (breathe_color_num + 1) % 7;
+            breathe_color_falg = 0;
+        }
+    }
+}
+
+
+
+
 //呼吸灯
-void WS2812B_Breathe(uint16_t index ,const RGB_Color_TypeDef color,uint8_t delay_ms)
+void WS2812B_Breathe(uint16_t index ,const RGB_Color_TypeDef color)
 {
 //    if(index >= WS2812B_NUM )return ;
     
-    uint16_t i;
+    
+    
+    
+    uint8_t line = (uint8_t ) ((uint16_t )i * 180 / MAX_BRIGHT);  //将呼吸变量映射到伽马表的 0 ～ 180范围
+    uint8_t gamma_val = Gamma_Int(line );  //查表取出的伽马输出值
+    
+//    uint8_t new_color_brt = (uint16_t )gamma_val * MAX_BRIGHT /255 ;   //把伽马输出值映射回0 ～ 180 限制峰值
+    
     RGB_Color_TypeDef temp;
     
-    for (i=0;i <= 180;i++)
-    {
-        temp.R  = (color.R * i) / 255;
-        temp.G   = (color.G * i) / 255;
-        temp.B = (color.B * i) / 255;
+//    for (i=0;i <= 180;i++) 
+//    {
+        temp.R  = (color.R * gamma_val) / 255;
+        temp.G   = (color.G * gamma_val) / 255;
+        temp.B = (color.B * gamma_val) / 255;
         
         for (uint8_t j = 0; j < index ;j ++)
         {
@@ -286,27 +347,27 @@ void WS2812B_Breathe(uint16_t index ,const RGB_Color_TypeDef color,uint8_t delay
         }
         
          WS2812B_Flush();
-        HAL_Delay (delay_ms );
-    }   
+        //HAL_Delay (delay_ms );
+    //}   
     
     
     
-    for (i=0;i <= 180;i++)
-    {
-        temp.R  = (color.R * (255 - i)) / 255;
-        temp.G   = (color.G * (255 - i)) / 255;
-        temp.B = (color.B * (255 - i)) / 255;
-        
-        for(uint8_t j = 0; j < index ;j ++)
-        {
-            led_buf [j][1] = temp.R ;
-            led_buf [j][0] = temp.G ;
-            led_buf [j][2] = temp.B ;
-        }
-        
-        WS2812B_Flush();
-        HAL_Delay (delay_ms );
-    }    
+//    for (i=0;i <= 180;i++)
+//    {
+//        temp.R  = (color.R * (255 - i)) / 255;
+//        temp.G   = (color.G * (255 - i)) / 255;
+//        temp.B = (color.B * (255 - i)) / 255;
+//        
+//        for(uint8_t j = 0; j < index ;j ++)
+//        {
+//            led_buf [j][1] = temp.R ;
+//            led_buf [j][0] = temp.G ;
+//            led_buf [j][2] = temp.B ;
+//        }
+//        
+        //WS2812B_Flush();
+//        HAL_Delay (delay_ms );
+    //}    
     
     
 }

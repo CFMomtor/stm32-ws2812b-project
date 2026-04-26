@@ -21,6 +21,8 @@
 #define MODI     47   //ws2812b的中档，适用于日常看书，办公学习
 #define HIGH     70   //ws2812b的高档，适用于高亮作业，临时强光，注意不能长时间使用对2812b损耗极大
 
+#define MAX_BRIGHT 180   //限制峰值亮度 180
+
 /* 定义单个LED三原色值结构体 */
 typedef struct 
 {
@@ -28,6 +30,12 @@ typedef struct
     uint8_t  G;   //绿色通道值(0 ～ 255)
     uint8_t  B;   //蓝色通道值(0 ～ 255)   
 }RGB_Color_TypeDef;
+
+
+
+
+extern  const uint8_t gamma_table_180 [181];
+
 
 
 
@@ -51,7 +59,8 @@ void WS2812B_ClearAll(void );
 void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim);
 void MX_USART1_UART_Init(void);
 void WS2812B_SetLEDColor (uint16_t index,const RGB_Color_TypeDef color);
-void WS2812B_Breathe(uint16_t index ,const RGB_Color_TypeDef color,uint8_t delay_ms);
+void ws2812_dir_step(void );
+void WS2812B_Breathe(uint16_t index ,const RGB_Color_TypeDef color);
 void WS2812B_OFF_All(void );
 void WS2812B_Flowsingle(uint16_t index ,const RGB_Color_TypeDef color,uint8_t delay_ms  );
 void WS2812B_Flow3group(uint16_t index ,uint8_t delay_ms );
