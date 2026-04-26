@@ -1,0 +1,31 @@
+# 编译生成的目标文件
+*.o
+*.d
+*.axf
+*.hex
+*.bin
+*.elf
+*.map
+*.scr
+
+# Keil工程临时文件
+*.uvoptx
+*.uvguix.*
+*.dep
+*.crf
+*.bak
+*.lst
+*.lnp
+*.sct
+*.scvd
+
+# 编译输出文件夹
+Project/Objects/
+Project/Listings/
+
+# 其他临时文件
+*.log
+*.tmp
+*.swp
+.DS_Store
+Thumbs.db
