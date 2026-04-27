@@ -23,6 +23,9 @@
 
 #define MAX_BRIGHT 180   //限制峰值亮度 180
 
+#define WATER_LED_TIME  50   //流水灯间隔时间
+#define WATER_BRINGHT_MAX  150  //流水灯上限亮度，防止发热
+
 /* 定义单个LED三原色值结构体 */
 typedef struct 
 {
@@ -35,7 +38,7 @@ typedef struct
 
 
 extern  const uint8_t gamma_table_180 [181];
-
+extern uint16_t ws2812b_buf[WS2812B_BUF_LEN];
 
 
 
@@ -62,7 +65,7 @@ void WS2812B_SetLEDColor (uint16_t index,const RGB_Color_TypeDef color);
 void ws2812_dir_step(void );
 void WS2812B_Breathe(uint16_t index ,const RGB_Color_TypeDef color);
 void WS2812B_OFF_All(void );
-void WS2812B_Flowsingle(uint16_t index ,const RGB_Color_TypeDef color,uint8_t delay_ms  );
+void WS2812B_RunHorsesingle(void);
 void WS2812B_Flow3group(uint16_t index ,uint8_t delay_ms );
 void WS2812B_ON_All(void );
 void WS2812B_warm_yellow(void );
@@ -71,6 +74,11 @@ void WS2812B_cool_white(void );
 void WS2812B_cool_sunlight_white(void );    
 void Brightness_Set(uint8_t percent);
 void Bringhtness_Step(int8_t step);
+uint8_t ws2812b_8x8(uint8_t x,uint8_t y);
+void WS2812B_Water_Run(void );
+
+
+
 
 #endif /* __BSP_ws2812b_H__ */
 

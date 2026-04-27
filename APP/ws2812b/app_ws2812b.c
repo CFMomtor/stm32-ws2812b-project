@@ -57,7 +57,7 @@ void show_2812B_linght(WS2812B_BASIC_MODETypedef mode)
         
         case WS2812_MODE_COOL_TONE :
             WS2812B_cool_white();
-            break;
+            break;                    
         default :
             break ;
     }   
@@ -87,7 +87,7 @@ void WS2812B_Basic_Mode(void)
             break;
         
         case WS2812_Breathe_MODE :
-            WS2812B_Breathe(64,breathe_color[breathe_color_num]);
+            WS2812B_Breathe(64,breathe_color[breathe_color_num] );
             break;
         
         case WS2812_MODE_L :
@@ -100,9 +100,14 @@ void WS2812B_Basic_Mode(void)
         
         case WS2812_MODE_HIGH :
             Brightness_Set(70);
-            break;
+            
+        case WS2812_MODE_RUNHORSE :
+            WS2812B_RunHorsesingle();
+//        WS2812B_Flow3group(64 ,50);
+            break ;
         default :
                 break ;
+      
             
        
         
@@ -128,7 +133,7 @@ void WS2812B_Task(void)
 //       
             /*流水灯效果*/
     static uint8_t step = 0;
-    WS2812B_Flowsingle(step ,RED,20);
+    WS2812B_RunHorsesingle();
     step = (step + 1) % WS2812B_NUM ;
             /* 结束 */
             

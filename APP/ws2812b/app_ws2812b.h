@@ -35,7 +35,8 @@ typedef enum
     WS2812_Breathe_MODE,
     WS2812_MODE_L,
     WS2812_MODE_MIOD,
-    WS2812_MODE_HIGH    
+    WS2812_MODE_HIGH,
+    WS2812_MODE_RUNHORSE    
     
 }WS2812B_BASIC_MODETypedef;
 

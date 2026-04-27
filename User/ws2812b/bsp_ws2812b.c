@@ -20,13 +20,19 @@ const uint8_t gamma_table_180 [181] = {
    225,228,231,235,238,241,244,248,251,254,255,255,255,255,255,255,
    255,255,255,255
 };
+//映射 8*8 矩阵ws2812B
+uint8_t group8x8 [9][9] = {
+        {0, 0, 0, 0, 0, 0, 0, 0, 0},  // 第一行全0
+        {0, 1,  2,  3,  4,  5,  6,  7,  8},
+        {0, 9, 10, 11, 12, 13, 14, 15, 16},
+        {0,17, 18, 19, 20, 21, 22, 23, 24},
+        {0,25, 26, 27, 28, 29, 30, 31, 32},
+        {0,33, 34, 35, 36, 37, 38, 39, 40},
+        {0,41, 42, 43, 44, 45, 46, 47, 48},
+        {0,49, 50, 51, 52, 53, 54, 55, 56},
+        {0,57, 58, 59, 60, 61, 62, 63, 64}
+    };
 
-
-
-
-/**  G：0000 0000  R：0000 0000 B：0000 0000 RESET：>=280us  即280/1.25 = 224位复位数据
-  *
-*/
 
 /* 亮度百分比，初始值为 47% 对应中档 */
 static  uint8_t linght_num = 47;
@@ -34,17 +40,18 @@ static  uint8_t linght_num = 47;
 uint16_t ws2812b_buf[WS2812B_BUF_LEN];  // 发送的数据缓冲区
 
 
-//uint8_t ws_tx_busy = 0;
 uint8_t i = 0;             //呼吸灯的亮度值0 ～ 180
 int8_t ws2812_dir = 1;     //呼吸灯方向 1自加 -1 自减
-
+/* 跑马灯全局变量非阻塞模式 */
+static  uint32_t water_time = 0;   //上一次点亮时间
+static uint8_t water_pos = 0;     //流水灯当前位置
 
 
 
 //LED颜色值数组
 
 uint8_t led_buf[WS2812B_NUM] [3];
-uint16_t led_count = 0;
+uint16_t led_count = 0;     //三色跑马灯数组下标
 
 //led_buf[i][0] = G通道，led_buf[i][1] = R通道， led_buf[i][2] = B通道
 
@@ -52,10 +59,7 @@ uint16_t led_count = 0;
 void WS2812B_Init(void) 
 {
    MX_DMA_Init();
-   MX_TIM2_Init();
-//   MX_USART1_UART_Init();
-//   HAL_TIM_Base_Start_IT(&htim4); 
-    
+   MX_TIM2_Init();    
     
     for(uint16_t i = 0 ; i < WS2812B_NUM ; i++)
     {   
@@ -71,10 +75,7 @@ void WS2812B_Init(void)
 }
 
 
-//  led      g          r         b
-//   2   1111 1111  1111 1111 0000 0000
-//
-//0000000001
+
 
 
 //伽马公式,优化呼吸灯效果 Lout = Lin的2.2次方/255的2.2次方 * 255
@@ -114,9 +115,7 @@ void Bringhtness_Step(int8_t step)
 static  void WS2812B_Setcolor_single( void )
 {
     uint16_t i ,j;
-    uint16_t pos = RESET_WORD ;  //DMA缓冲区偏移，前面保留复位信号
-//    uint32_t color = (uint32_t)(g) << 16 | (uint32_t )(r ) << 8 | b ;     //1111 1111  1111 1111 0000 0000
-    
+    uint16_t pos = RESET_WORD ;  //DMA缓冲区偏移，前面保留复位信号    
     
     //遍历每个LED
     for (i = 0 ; i < WS2812B_NUM ; i ++)
@@ -145,21 +144,13 @@ static  void WS2812B_Setcolor_single( void )
 //发送刷新
 void WS2812B_Flush(void )
 {
-//    if(ws_tx_busy != 0)
-//        return ;
-//    ws_tx_busy = 1;
-//    
-//    HAL_TIM_PWM_Stop_DMA (&htim2  ,TIM_CHANNEL_1);
-    
     WS2812B_Setcolor_single();
-//    if(htim2.State != HAL_TIM_STATE_READY )
-//    {
-//        while(1);
-//    }
-//    
+
     //启动DMA发送PWM
-      HAL_StatusTypeDef status =  HAL_TIM_PWM_Start_DMA (&htim2  ,TIM_CHANNEL_1,(uint32_t *)ws2812b_buf,sizeof (ws2812b_buf)/sizeof (ws2812b_buf[0]));
-//     
+      HAL_StatusTypeDef status =  HAL_TIM_PWM_Start_DMA (&htim2  ,
+                                                          TIM_CHANNEL_1,
+                                                          (uint32_t *)ws2812b_buf,
+                                                          sizeof (ws2812b_buf)/sizeof (ws2812b_buf[0]));    
 }    
 
 
@@ -300,7 +291,7 @@ void ws2812_dir_step(void )
     if(i >= MAX_BRIGHT)
     {
         i = MAX_BRIGHT;
-        ws2812_dir = -1;
+        ws2812_dir = -1;        
         breathe_color_falg = 1;
     }
     else if(i <= 0)
@@ -321,20 +312,11 @@ void ws2812_dir_step(void )
 //呼吸灯
 void WS2812B_Breathe(uint16_t index ,const RGB_Color_TypeDef color)
 {
-//    if(index >= WS2812B_NUM )return ;
-    
-    
-    
-    
     uint8_t line = (uint8_t ) ((uint16_t )i * 180 / MAX_BRIGHT);  //将呼吸变量映射到伽马表的 0 ～ 180范围
     uint8_t gamma_val = Gamma_Int(line );  //查表取出的伽马输出值
     
-//    uint8_t new_color_brt = (uint16_t )gamma_val * MAX_BRIGHT /255 ;   //把伽马输出值映射回0 ～ 180 限制峰值
-    
     RGB_Color_TypeDef temp;
     
-//    for (i=0;i <= 180;i++) 
-//    {
         temp.R  = (color.R * gamma_val) / 255;
         temp.G   = (color.G * gamma_val) / 255;
         temp.B = (color.B * gamma_val) / 255;
@@ -347,53 +329,63 @@ void WS2812B_Breathe(uint16_t index ,const RGB_Color_TypeDef color)
         }
         
          WS2812B_Flush();
-        //HAL_Delay (delay_ms );
-    //}   
+   
+}    
+
     
     
     
-//    for (i=0;i <= 180;i++)
-//    {
-//        temp.R  = (color.R * (255 - i)) / 255;
-//        temp.G   = (color.G * (255 - i)) / 255;
-//        temp.B = (color.B * (255 - i)) / 255;
-//        
-//        for(uint8_t j = 0; j < index ;j ++)
-//        {
-//            led_buf [j][1] = temp.R ;
-//            led_buf [j][0] = temp.G ;
-//            led_buf [j][2] = temp.B ;
-//        }
-//        
-        //WS2812B_Flush();
-//        HAL_Delay (delay_ms );
-    //}    
-    
-    
-}
+    /* 单色 led 灯跑马效果 (上下跑马效果)非阻塞模式 */
 
-
-
-
-
-    /* 单色 led 灯流水效果 (上下流水灯跑马效果) */
-
-void WS2812B_Flowsingle(uint16_t index ,const RGB_Color_TypeDef color,uint8_t delay_ms  )
+void WS2812B_RunHorsesingle(void )
 {
-//    WS2812B_OFF_All();
-     for(uint8_t i = 0;i<index ;i++)
-        {
-            WS2812B_SetLEDColor(i,color);
-            HAL_Delay (delay_ms );                            
-        }        
-        WS2812B_OFF_All(); 
-}        
+    
+
+    uint32_t now = HAL_GetTick ();       //获取系统时间
+    
+     if(now - water_time >= WATER_LED_TIME)
+    {
+        
+        water_time = now ;               //记录刷新时间
+
+        /* 灭第一个灯的测试代码 */
+//        int to_off = water_pos - 8;
+//        if(to_off < 0)
+//            to_off += WS2812B_NUM;
+//        WS2812B_SetLEDColor(to_off,BLACK);
+//        WS2812B_SetLEDColor(water_pos ,RED);        
+//        water_pos ++;
+//         if(water_pos >= WS2812B_NUM )
+//        {
+////           WS2812B_OFF_All();
+//           water_pos = 0; 
+//        }
+        /* 结束 */
+        if(water_pos > 8)
+            WS2812B_SetLEDColor(water_pos-8 ,BLACK);
+        if(water_pos == 0 || water_pos <= 8)
+            for(uint8_t i = 0;i <= 8 ;i ++)
+            WS2812B_SetLEDColor(WS2812B_NUM-i ,BLACK);
+        WS2812B_SetLEDColor(water_pos ,RED);        
+        water_pos ++;
+        
+        
+        
+        if(water_pos >= WS2812B_NUM )
+            water_pos = 0;
+
+      }       
+       
+}             
+   
+
+        
                 
 
-//设置三种颜色每三颗灯为一组切换点亮       
+//设置三种颜色每三颗灯为一组切换点亮跑马效果       
 void WS2812B_Flow3group(uint16_t index , uint8_t delay_ms  )
 {
-    uint8_t LED_Count = 0 ;
+    uint8_t LED_Count = 0 ;  //LED灯数目，三颗一组，为一个颜色
     const RGB_Color_TypeDef colornum[3] = {
         {255,0,0},  //红色
         {0,255,0},  //绿色
@@ -424,11 +416,21 @@ void WS2812B_Flow3group(uint16_t index , uint8_t delay_ms  )
     
 }
         
-        
-        
+    
+//映射8*8矩形led序号   
+uint8_t ws2812b_8x8(uint8_t x,uint8_t y)
+{
+    return group8x8[x][y];
+}
 
 
 
 
+//流水灯效果
+void WS2812B_Water_Run(void )
+{
+   
+    
+}
 
 

@@ -55,5 +55,6 @@
 .\objects\stm32f1xx_it.o: ..\Libraries\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_hcd.h
 .\objects\stm32f1xx_it.o: ..\Libraries\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_mmc.h
 .\objects\stm32f1xx_it.o: C:\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdio.h
+.\objects\stm32f1xx_it.o: C:\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
 .\objects\stm32f1xx_it.o: ..\User\stm32f1xx_it.h
 .\objects\stm32f1xx_it.o: ..\User\tim_pwm/bsp_tim.h

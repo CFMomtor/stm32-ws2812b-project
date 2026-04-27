@@ -35,16 +35,18 @@
 /** 
   * Enable DMA controller clock
   */
+  
+/* DMA初始化 */
 void MX_DMA_Init(void) 
 {
 
   /* DMA controller clock enable */
-  __HAL_RCC_DMA1_CLK_ENABLE();
+  __HAL_RCC_DMA1_CLK_ENABLE();                   //开启 DMA1 外设时钟
 
   /* DMA interrupt init */
   /* DMA1_Channel5_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Channel5_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(DMA1_Channel5_IRQn);
+  HAL_NVIC_SetPriority(DMA1_Channel5_IRQn, 0, 0);  //设置 DMA1 通道5的中断优先级 (0,0)
+  HAL_NVIC_EnableIRQ(DMA1_Channel5_IRQn);          //开启DMA 全局中断
 
 }
 

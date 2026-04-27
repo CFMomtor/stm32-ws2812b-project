@@ -56,6 +56,7 @@
 .\objects\app_key.o: ..\Libraries\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_hcd.h
 .\objects\app_key.o: ..\Libraries\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_mmc.h
 .\objects\app_key.o: C:\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdio.h
+.\objects\app_key.o: C:\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
 .\objects\app_key.o: ..\User\key/bsp_key.h
 .\objects\app_key.o: ..\APP\ws2812b/app_ws2812b.h
 .\objects\app_key.o: ..\User\ws2812b/bsp_ws2812b.h

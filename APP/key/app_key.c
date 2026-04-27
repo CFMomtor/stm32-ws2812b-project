@@ -48,9 +48,12 @@ void KEY_WS2812BMode(void )
                 break ;
             
             case 2 :
+                ws2812b_basic_mode = WS2812_MODE_RUNHORSE;
+                
+                break ;
+            case 3 :
                 ws2812b_basic_mode = WS2812_BASIC_MODE_ON;
                 key_count = 0;
-                break ;
         }
      }
      
@@ -66,7 +69,8 @@ void KEY_WS2812BMode(void )
         
         //限制挡位调节按键在关灯和呼吸灯模式下无效
         
-       if(ws2812b_basic_mode != WS2812_Breathe_MODE && ws2812b_basic_mode != WS2812_MODE_OFF)  
+       if(ws2812b_basic_mode != WS2812_Breathe_MODE && ws2812b_basic_mode != WS2812_MODE_OFF 
+                                                    && ws2812b_basic_mode != WS2812_MODE_RUNHORSE)  
        {
             key_count ++;
             switch(key_count)
@@ -99,9 +103,9 @@ void KEY_WS2812BMode(void )
 //        switch (key_count)
 //        {
 //            case 1 :
-//                ws2812b_basic_mode = WS2812_MODE_LINGHTMAX;
+//                ws2812b_basic_mode = WS2812_MODE_LOVE_Breathe;
 //                break ;
-//            
+            
 //            case 2 :
 //                ws2812b_basic_mode = WS2812_MODE_LINGHTMIN;
 //                key_count = 0;
