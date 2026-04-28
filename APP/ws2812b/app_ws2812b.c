@@ -29,7 +29,7 @@ const RGB_Color_TypeDef breathe_color[] = {
 
 
 uint8_t breathe_color_num = 0;  //呼吸灯颜色索引变量
-uint8_t breathe_color_falg = 0; //呼吸灯变颜色标志位，为1时改变颜色
+
 
 
 volatile WS2812B_BASIC_MODETypedef ws2812b_basic_mode = WS2812_MODE_OFF;
@@ -67,56 +67,76 @@ void show_2812B_linght(WS2812B_BASIC_MODETypedef mode)
 void WS2812B_Basic_Mode(void)
 {
     const  RGB_Color_TypeDef breathe_color[7] ={RED,ORANGE,YELLOW,GREEN,CYAN,BLUE,PURPLE};
+    static uint8_t last_mode = 0xFF;     //跑马灯清除上一次模式标志
     switch (ws2812b_basic_mode)
-    {
+    {                
         case WS2812_MODE_OFF :
             WS2812B_OFF_All();
+            last_mode = 0xFF;
             break;
         
         case WS2812_BASIC_MODE_ON :
             WS2812B_ON_All();
+            last_mode = 0xFF;
             break;
         
         
         case WS2812_MODE_WARM_TONE :
             WS2812B_warm_yellow();
+            last_mode = 0xFF;
             break;
         
         case WS2812_MODE_COOL_TONE :
             WS2812B_cool_white();
+            last_mode = 0xFF;
             break;
         
         case WS2812_Breathe_MODE :
             WS2812B_Breathe(64,breathe_color[breathe_color_num] );
+            last_mode = 0xFF;
             break;
         
         case WS2812_MODE_L :
             Brightness_Set(20);
+            last_mode = 0xFF;
             break; 
 
         case WS2812_MODE_MIOD :
             Brightness_Set(47);
+            last_mode = 0xFF;
             break;
         
         case WS2812_MODE_HIGH :
             Brightness_Set(70);
-            
-        case WS2812_MODE_RUNHORSE :
-            WS2812B_RunHorsesingle();
-//        WS2812B_Flow3group(64 ,50);
+            last_mode = 0xFF;
             break ;
-        default :
+        case WS2812_MODE_RUNHORSE :
+        {
+            
+            if(last_mode != WS2812_MODE_RUNHORSE)    //判断上一次是否为跑马灯模式
+            {
+                WS2812B_OFF_All();
+                water_pos = 0;
+            }
+            last_mode = WS2812_MODE_RUNHORSE;
+            WS2812B_RunHorsesingle();
+            break ;
+        }
+            
+
+            
+        default :last_mode = 0xFF;
                 break ;
-      
+     } 
             
-       
+}       
         
         
             
-     }
+     
             
     
-}
+
 
 
 /**

@@ -39,7 +39,7 @@ typedef struct
 
 extern  const uint8_t gamma_table_180 [181];
 extern uint16_t ws2812b_buf[WS2812B_BUF_LEN];
-
+extern uint8_t water_pos;
 
 
 

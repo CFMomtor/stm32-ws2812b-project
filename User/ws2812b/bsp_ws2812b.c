@@ -44,7 +44,7 @@ uint8_t i = 0;             //呼吸灯的亮度值0 ～ 180
 int8_t ws2812_dir = 1;     //呼吸灯方向 1自加 -1 自减
 /* 跑马灯全局变量非阻塞模式 */
 static  uint32_t water_time = 0;   //上一次点亮时间
-static uint8_t water_pos = 0;     //流水灯当前位置
+uint8_t water_pos = 0;     //流水灯当前位置
 
 
 
@@ -287,10 +287,10 @@ void WS2812B_SetLEDColor (uint16_t index,const RGB_Color_TypeDef color)
 //呼吸灯方向改变函数，在TIM4中断回调函数中调用
 void ws2812_dir_step(void )
 {
+   static  uint8_t breathe_color_falg = 0; //呼吸灯变颜色标志位，为1时改变颜色
     i += ws2812_dir ;
     if(i >= MAX_BRIGHT)
     {
-        i = MAX_BRIGHT;
         ws2812_dir = -1;        
         breathe_color_falg = 1;
     }
@@ -312,7 +312,7 @@ void ws2812_dir_step(void )
 //呼吸灯
 void WS2812B_Breathe(uint16_t index ,const RGB_Color_TypeDef color)
 {
-    uint8_t line = (uint8_t ) ((uint16_t )i * 180 / MAX_BRIGHT);  //将呼吸变量映射到伽马表的 0 ～ 180范围
+    uint8_t line = (uint8_t ) ((uint16_t )i * 179 / MAX_BRIGHT);  //将呼吸变量映射到伽马表的 0 ～ 180范围
     uint8_t gamma_val = Gamma_Int(line );  //查表取出的伽马输出值
     
     RGB_Color_TypeDef temp;
@@ -347,23 +347,10 @@ void WS2812B_RunHorsesingle(void )
     {
         
         water_time = now ;               //记录刷新时间
-
-        /* 灭第一个灯的测试代码 */
-//        int to_off = water_pos - 8;
-//        if(to_off < 0)
-//            to_off += WS2812B_NUM;
-//        WS2812B_SetLEDColor(to_off,BLACK);
-//        WS2812B_SetLEDColor(water_pos ,RED);        
-//        water_pos ++;
-//         if(water_pos >= WS2812B_NUM )
-//        {
-////           WS2812B_OFF_All();
-//           water_pos = 0; 
-//        }
-        /* 结束 */
-        if(water_pos > 8)
-            WS2812B_SetLEDColor(water_pos-8 ,BLACK);
-        if(water_pos == 0 || water_pos <= 8)
+        
+        if(water_pos >= 8)
+            WS2812B_SetLEDColor(water_pos-8 ,BLACK);        
+        if(water_pos == 0 || water_pos < 8)
             for(uint8_t i = 0;i <= 8 ;i ++)
             WS2812B_SetLEDColor(WS2812B_NUM-i ,BLACK);
         WS2812B_SetLEDColor(water_pos ,RED);        
