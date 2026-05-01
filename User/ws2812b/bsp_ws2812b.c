@@ -335,34 +335,50 @@ void WS2812B_Breathe(uint16_t index ,const RGB_Color_TypeDef color)
     
     
     
-    /* 单色 led 灯跑马效果 (上下跑马效果)非阻塞模式 */
+    /* 彩色 led 灯跑马效果 (上下跑马效果)非阻塞模式 */
 
 void WS2812B_RunHorsesingle(void )
 {
     
-
-    uint32_t now = HAL_GetTick ();       //获取系统时间
-    
-     if(now - water_time >= WATER_LED_TIME)
+    const  RGB_Color_TypeDef RunHorse_color[7] ={RED,ORANGE,YELLOW,GREEN,CYAN,BLUE,PURPLE};  //变幻颜色数组
+    static  int8_t led_dir = 1;       //亮度调节方向
+    static  uint8_t clor_num = 0;     //颜色索引
+    uint32_t now = HAL_GetTick ();       //获取系统时间         
+    /* 多色测试 */
+    if(now - water_time >= WATER_LED_TIME)
     {
-        
-        water_time = now ;               //记录刷新时间
-        
-        if(water_pos >= 8)
-            WS2812B_SetLEDColor(water_pos-8 ,BLACK);        
-        if(water_pos == 0 || water_pos < 8)
-            for(uint8_t i = 0;i <= 8 ;i ++)
-            WS2812B_SetLEDColor(WS2812B_NUM-i ,BLACK);
-        WS2812B_SetLEDColor(water_pos ,RED);        
-        water_pos ++;
+        water_time = now ;   //记录刷新时间
+       //衰减亮度值
+        for (uint8_t j = 0; j < WS2812B_NUM ;j ++)
+        {
+            led_buf [j][1] = led_buf [j][1]*7/8;
+            led_buf [j][0] = led_buf [j][0] *7/8;
+            led_buf [j][2] = led_buf [j][2] *7/8;
+        }
         
         
+        const  RGB_Color_TypeDef temp = RunHorse_color[clor_num];
+        led_buf [water_pos][1] = temp.R;
+        led_buf [water_pos][0] = temp.G;
+        led_buf [water_pos][2] = temp.B;
         
+        water_pos += led_dir ;
         if(water_pos >= WS2812B_NUM )
-            water_pos = 0;
+        {
+            led_dir = -1;
+            
+        }
+        if(water_pos == 0 && led_dir == -1)
+        {
+            led_dir = 1;
+        }
+        
+        
+        WS2812B_Flush();
+    }
+    if(water_pos % 8 == 0)
+        clor_num == 6 ? clor_num = 0 : clor_num ++ ;
 
-      }       
-       
 }             
    
 
